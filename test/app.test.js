@@ -8,7 +8,24 @@ async function getIndex() {
   return response;
 };
 
+async function postIndex() {
+  var response = axios.post(baseUrl, {
+    "parkingStructure" : "300",
+    "floor" : 1,
+    "type" : "standard",
+    "diff" : -1
+  });
+  return response;
+};
+
 describe('Testing... GET /', () => {
+  it('should return 200', async () => {
+    const response = await getIndex();
+    assert(response.status == 200);
+  });
+});
+
+describe('Testing... POST /', () => {
   it('should return 200', async () => {
     const response = await getIndex();
     assert(response.status == 200);

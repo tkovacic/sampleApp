@@ -13,15 +13,29 @@
 // limitations under the License.
 
 'use strict';
+// sandbox-db
+// #CQ]y>GM5Qf<RYdh
 
 // [START gae_node_request_example]
 const express = require('express');
 const path = require('path');
 const app = express();
 
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
 app.get('/', (request, response) => {
-  //res.status(200).send('Hello, world!').end();
   response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
+});
+
+app.post('/', (request, response) => {
+  console.log(request.body);
+  var body = JSON.stringify(request.body);
+  response.status(200).send('Recieved: ' + body).end();
 });
 
 // Start the server
