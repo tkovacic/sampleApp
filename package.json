@@ -4,22 +4,24 @@
   "version": "0.0.2",
   "private": true,
   "license": "Apache-2.0",
-  "author": "Google Inc.",
+  "author": "Timothy Damir Kovacic",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git"
+    "url": "https://github.com/tkovacic/sampleApp.git"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha --exit test/*.test.js"
+    "test": "mocha --exit test/*.test.js",
+    "test-start": "mocha --exit test/*.test.js && node app.js"
   },
   "dependencies": {
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "axios": "^0.27.2",
     "mocha": "^9.0.0",
     "supertest": "^6.0.0"
   }

@@ -17,12 +17,11 @@
 // [START gae_node_request_example]
 const express = require('express');
 const path = require('path');
-
 const app = express();
 
-app.get('/', (req, res) => {
+app.get('/', (request, response) => {
   //res.status(200).send('Hello, world!').end();
-  res.sendFile(path.join(__dirname, '/web/index.html'));
+  response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
 });
 
 // Start the server

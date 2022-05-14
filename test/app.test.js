@@ -1,22 +1,16 @@
 const app = require('../app');
-const request = require('supertest');
-var expect = require('chai').expect();
-var expect = require('chai').should();
+const assert = require('assert');
+const axios = require('axios');
+const baseUrl = "http://localhost:8080";
 
-describe('gae_node_request_example', () => {
-  describe('GET /', () => {
-    it('expect to get 200', () => {
-      request(app).get('/').expect(200);
-    });
-    it('should return response of json', () => {
-      request(app).get('/', function(err,res,body) {
-        res.should.be.a.json;
-      });
-    });
-    it('should return json body of html', () => {
-      request(app).get('/', function(err,res,body) {
-        body.should.be.a.html;
-      });
-    });
+async function getIndex() {
+  var response = axios.get(baseUrl);
+  return response;
+};
+
+describe('Testing... GET /', () => {
+  it('should return 200', async () => {
+    const response = await getIndex();
+    assert(response.status == 200);
   });
 });
