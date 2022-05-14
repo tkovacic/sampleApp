@@ -14,6 +14,7 @@
 
 'use strict';
 // sandbox-db
+// sqlserver
 // #CQ]y>GM5Qf<RYdh
 
 // [START gae_node_request_example]
@@ -21,7 +22,17 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+var sql = require("mssql");
 var bodyParser = require('body-parser');
+
+var dbConfig = {
+  server: "34.148.177.123",
+  database: "sandbox",
+  user: "sqlserver",
+  password: "#CQ]y>GM5Qf<RYdh",
+  port: 1433,
+  encrypt: false
+};
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -29,7 +40,24 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/', (request, response) => {
-  response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
+  var conn = new sql.ConnectionPool(dbConfig);
+  var dbRequest = new sql.Request(conn);
+
+  conn.connect((error) => {
+    if(error) {
+      console.log(error);
+      return;
+    }
+    dbRequest.query("SELECT * FROM parking_deck", (error, recordSet) => {
+      if(error) {
+        console.log(error);
+      } else {
+        console.log(recordSet.recordset);
+      }
+      conn.close();
+      response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
+    });
+  });
 });
 
 app.post('/', (request, response) => {
