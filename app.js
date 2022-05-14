@@ -13,9 +13,6 @@
 // limitations under the License.
 
 'use strict';
-// sandbox-db
-// sqlserver
-// #CQ]y>GM5Qf<RYdh
 
 // [START gae_node_request_example]
 const express = require('express');
