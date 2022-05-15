@@ -40,9 +40,12 @@ app.post('/', (request, response) => {
   var parkingFloor = body.floor;
   var parkingDiff = body.diff;
 
-  lib.getCurrentCount(parkingDeck, parkingFloor, parkingType).then(response => {
+  var now = new Date();
+  var currentDateTime = dateAndTime.format(now,'YYYY-MM-DD Z').substring(0,10);
+
+  lib.getCurrentCount(parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {
     var updatedCount = parseInt(parkingDiff) + parseInt(response);
-    lib.updateCurrentCount(updatedCount.toString(), parkingDeck, parkingFloor, parkingType).then(response => {
+    lib.updateCurrentCount(updatedCount.toString(), parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {
       console.log(response);
     });
   });

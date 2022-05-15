@@ -30,14 +30,14 @@ async function postIndex() {
   return response;
 };
 
-describe('Testing... GET /', () => {
+describe('Testing... APP - GET /', () => {
   it('should return 200', async () => {
     const response = await getIndex();
     assert(response.status == 200);
   });
 });
 
-describe('Testing... POST /', () => {
+describe('Testing... APP - POST /', () => {
   it('should return 200', async () => {
     const response = await getIndex();
     assert(response.status == 200);

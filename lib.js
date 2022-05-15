@@ -13,8 +13,6 @@
 'use strict';
 
 var sql = require("mssql");
-var bodyParser = require('body-parser');
-var dateAndTime = require('date-and-time');
 
 var dbConfig = {
   server: "34.148.177.123",
@@ -25,7 +23,7 @@ var dbConfig = {
   encrypt: false
 }
 
-function updateCurrentCount(count, deck, floor, type) {
+function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
 		var conn = new sql.ConnectionPool(dbConfig);
 	  const transaction = new sql.Transaction(conn);
@@ -40,9 +38,6 @@ function updateCurrentCount(count, deck, floor, type) {
 					reject(error);
 				}
 		    const request = new sql.Request(transaction);
-
-		    var now = new Date();
-		    var currentDateTime = dateAndTime.format(now,'YYYY-MM-DD Z').substring(0,10);
 
 		    request.input('count', sql.VarChar, count.toString());
 		    request.input('date', sql.VarChar, currentDateTime);
@@ -67,13 +62,10 @@ function updateCurrentCount(count, deck, floor, type) {
 	});
 }
 
-function getCurrentCount(deck, floor, type) {
+function getCurrentCount(deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
 		var conn = new sql.ConnectionPool(dbConfig);
 	  var dbRequest = new sql.Request(conn);
-
-	  var now = new Date();
-	  var currentDateTime = dateAndTime.format(now,'YYYY-MM-DD Z').substring(0,10);
 
 	  dbRequest.input('date', sql.VarChar, currentDateTime);
 	  dbRequest.input('type', sql.VarChar, type);
