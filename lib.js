@@ -13,7 +13,6 @@
 'use strict';
 
 var sql = require("mssql");
-
 var dbConfig = {
   server: "34.148.177.123",
   database: "sandbox",
@@ -144,4 +143,4 @@ function getCurrentCount(diff, deck, floor, type, currentDateTime) {
 	});
 }
 
-module.exports = { getCurrentCount, updateCurrentCount };
+module.exports = { getCurrentCount, updateCurrentCount, addNewRow };

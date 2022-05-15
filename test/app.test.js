@@ -23,9 +23,9 @@ async function getIndex() {
 async function postIndex() {
   var response = axios.post(baseUrl, {
     "parkingStructure" : "300",
-    "floor" : 1,
+    "floor" : "0",
     "type" : "standard",
-    "diff" : -1
+    "diff" : "0"
   });
   return response;
 };
@@ -39,7 +39,7 @@ describe('Testing... APP - GET /', () => {
 
 describe('Testing... APP - POST /', () => {
   it('should return 200 OK status', async () => {
-    const response = await getIndex();
+    const response = await postIndex();
     assert(response.status == 200);
   });
 });

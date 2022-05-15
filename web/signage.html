@@ -47,13 +47,13 @@
 window.onload = function() {
   setInterval(function() {
     var req = new XMLHttpRequest();
-    req.open('GET','http://localhost:8080/currentCount?deck=300&floor=1&type=standard&date=2022-05-15');
+    req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-15');
     req.send();
     req.onload = (response) => {
       console.log(response);
       document.getElementById('target').innerHTML = response.srcElement.response;
     }
-  }, 1000);
+  }, 5000);
 }
 </script>
 </body>
