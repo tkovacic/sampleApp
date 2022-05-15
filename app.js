@@ -14,7 +14,8 @@
 
 'use strict';
 
-// [START gae_node_request_example]
+const lib = require('./lib.js');
+
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -62,46 +63,15 @@ app.post('/', (request, response) => {
   var jsonBody = JSON.stringify(request.body);
   var body = JSON.parse(jsonBody);
 
-  var currentCount = 0;
+  var currentCount = 1;
   var parkingType = body.type;
   var parkingDeck = body.parkingStructure;
   var parkingFloor = body.floor;
   var parkingDiff = body.diff;
 
-  var conn = new sql.ConnectionPool(dbConfig);
-  var dbRequest = new sql.Request(conn);
-
-  var now = new Date();
-  var currentDateTime = dateAndTime.format(now,'YYYY-MM-DD Z').substring(0,10);
-
-  dbRequest.input('date', sql.VarChar, currentDateTime); console.log(currentDateTime);
-  dbRequest.input('type', sql.VarChar, parkingType); console.log(parkingType);
-  dbRequest.input('floor', sql.VarChar, parkingFloor); console.log(parkingFloor);
-  dbRequest.input('deck', sql.VarChar, parkingDeck); console.log(parkingDeck);
-  var sqlQuery = "SELECT * FROM parking_deck WHERE dt = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;";
-
-  conn.connect((error) => {
-      if(error) {
-        console.log(error);
-        return;
-      }
-      dbRequest.query(sqlQuery, (error, recordSet) => {
-        if(error) {
-          console.log(error);
-        } else {
-          if(recordSet.recordset.length > 0) {
-            var jsonBody = JSON.stringify(recordSet.recordset[0]);
-            var body = JSON.parse(jsonBody);
-            currentCount = body.parking_deck_count;
-            console.log(currentCount);
-          } else {
-            console.log('need to create new row for new day');
-          }
-        }
-        conn.close();
-        //response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
-      });
-    });
+  lib.getCurrentCount(parkingDeck, parkingFloor, parkingType).then(response => {
+    console.log(response);
+  });
 
   /*var conn = new sql.ConnectionPool(dbConfig);
   const transaction = new sql.Transaction(conn);
