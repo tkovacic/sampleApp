@@ -30,6 +30,10 @@ app.get('/', (request, response) => {
   response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
 });
 
+app.get('/signage', (request, response) => {
+  response.status(200).sendFile(path.join(__dirname, '/web/signage.html'));
+});
+
 app.post('/', (request, response) => {
   var jsonBody = JSON.stringify(request.body);
   var body = JSON.parse(jsonBody);
@@ -49,6 +53,18 @@ app.post('/', (request, response) => {
   });
 
   response.status(200).send('Recieved data from deck ' + parkingDeck + ' on floor ' + parkingFloor + ' for ' + parkingType + ' spot with delta of ' + parkingDiff).end();
+});
+
+app.get('/currentCount', (request, response) => {
+  const parkingDiff = 0;
+  const parkingDeck = request.query.deck;
+  const parkingFloor = request.query.floor;
+  const parkingType = request.query.type;
+  const parkingDate = request.query.date;
+
+  lib.getCurrentCount(parkingDiff, parkingDeck, parkingFloor, parkingType, parkingDate).then(counts => {
+    response.status(200).send(counts);
+  });
 });
 
 const PORT = parseInt(process.env.PORT) || 8080;
