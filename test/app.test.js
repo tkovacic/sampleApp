@@ -31,14 +31,14 @@ async function postIndex() {
 };
 
 describe('Testing... APP - GET /', () => {
-  it('should return 200', async () => {
+  it('should return 200 OK status', async () => {
     const response = await getIndex();
     assert(response.status == 200);
   });
 });
 
 describe('Testing... APP - POST /', () => {
-  it('should return 200', async () => {
+  it('should return 200 OK status', async () => {
     const response = await getIndex();
     assert(response.status == 200);
   });

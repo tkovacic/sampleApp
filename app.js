@@ -45,9 +45,7 @@ app.post('/', (request, response) => {
 
   lib.getCurrentCount(parkingDiff, parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {
     var updatedCount = parseInt(parkingDiff) + parseInt(response);
-    lib.updateCurrentCount(updatedCount.toString(), parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {
-      console.log(response);
-    });
+    lib.updateCurrentCount(updatedCount.toString(), parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {});
   });
 
   response.status(200).send('Recieved data from deck ' + parkingDeck + ' on floor ' + parkingFloor + ' for ' + parkingType + ' spot with delta of ' + parkingDiff).end();
