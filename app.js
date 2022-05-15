@@ -21,6 +21,7 @@ const app = express();
 
 var sql = require("mssql");
 var bodyParser = require('body-parser');
+var dateAndTime = require('date-and-time');
 
 var dbConfig = {
   server: "34.148.177.123",
@@ -58,9 +59,71 @@ app.get('/', (request, response) => {
 });
 
 app.post('/', (request, response) => {
-  console.log(request.body);
-  var body = JSON.stringify(request.body);
-  response.status(200).send('Recieved: ' + body).end();
+  var jsonBody = JSON.stringify(request.body);
+  var body = JSON.parse(jsonBody);
+
+  var currentCount = 0;
+  var parkingType = body.type;
+  var parkingDeck = body.parkingStructure;
+  var parkingFloor = body.floor;
+  var parkingDiff = body.diff;
+
+  var conn = new sql.ConnectionPool(dbConfig);
+  var dbRequest = new sql.Request(conn);
+
+  var now = new Date();
+  var currentDateTime = dateAndTime.format(now,'YYYY-MM-DD Z').substring(0,10);
+
+  dbRequest.input('date', sql.VarChar, currentDateTime); console.log(currentDateTime);
+  dbRequest.input('type', sql.VarChar, parkingType); console.log(parkingType);
+  dbRequest.input('floor', sql.VarChar, parkingFloor); console.log(parkingFloor);
+  dbRequest.input('deck', sql.VarChar, parkingDeck); console.log(parkingDeck);
+  var sqlQuery = "SELECT * FROM parking_deck WHERE dt = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;";
+
+  conn.connect((error) => {
+      if(error) {
+        console.log(error);
+        return;
+      }
+      dbRequest.query(sqlQuery, (error, recordSet) => {
+        if(error) {
+          console.log(error);
+        } else {
+          if(recordSet.recordset.length > 0) {
+            var jsonBody = JSON.stringify(recordSet.recordset[0]);
+            var body = JSON.parse(jsonBody);
+            currentCount = body.parking_deck_count;
+            console.log(currentCount);
+          } else {
+            console.log('need to create new row for new day');
+          }
+        }
+        conn.close();
+        //response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
+      });
+    });
+
+  /*var conn = new sql.ConnectionPool(dbConfig);
+  const transaction = new sql.Transaction(conn);
+  transaction.begin(error => {
+    const request = new sql.Request(transaction);
+
+    var now = new Date();
+    var currentDateTime = date.format(now,'YYYY-MM-DD 00:00:00.000');
+
+    sql.input('IN1', sql.Integer, currentCount);
+    sql.input('IN2', sql.DateTime, currentDateTime);
+    sql.input('IN3', sql.Varchar, parkingType);
+    sql.input('IN4', sql.Integer, parkingFloor);
+    sql.input('IN5', sql.Varchar, parkingDeck);
+
+    request.query('UPDATE parking_deck SET parking_deck_count = @IN1 WHERE dt = @IN2 AND parking_deck_count_type = @IN3 AND parking_deck_floor = @IN4 AND parking_deck = @IN5', (err, result) => {
+        transaction.commit(error => {
+            console.log("Transaction committed.");
+      });
+    });
+  });*/
+  response.status(200).send('Recieved data from deck ' + parkingDeck + ' on floor ' + parkingFloor + ' for ' + parkingType + ' spot with delta of ' + parkingDiff).end();
 });
 
 // Start the server
