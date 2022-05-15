@@ -63,7 +63,7 @@ app.get('/currentCount', (request, response) => {
   const parkingDate = request.query.date;
 
   lib.getCurrentCount(parkingDiff, parkingDeck, parkingFloor, parkingType, parkingDate).then(counts => {
-    response.status(200).send(counts);
+    response.status(200).send(counts).end();
   });
 });
 

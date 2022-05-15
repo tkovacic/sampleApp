@@ -11,9 +11,9 @@
 // limitations under the License.
 
 'use strict';
-
-var sql = require("mssql");
-var dbConfig = {
+const fs = require('fs');
+const sql = require("mssql");
+var dbTCPConfig = {
   server: "34.148.177.123",
   database: "sandbox",
   user: "sqlserver",
@@ -21,12 +21,21 @@ var dbConfig = {
   port: 1433,
   encrypt: false
 }
+var dbSSLConfig = {
+  server: "34.148.177.123",
+  database: "sandbox",
+  user: "sqlserver",
+  password: "#CQ]y>GM5Qf<RYdh",
+  port: 3306,
+  encrypt: true,
+	ssl: {ca: fs.readFileSync(__dirname + '/web/cert/server-ca.pem')}
+}
 
 var maxAvailability = 100;
 
 function addNewRow(diff, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbConfig);
+		var conn = new sql.ConnectionPool(dbTCPConfig);
 	  const transaction = new sql.Transaction(conn);
 		conn.connect((error) => {
       if(error) {
@@ -66,7 +75,7 @@ function addNewRow(diff, deck, floor, type, currentDateTime) {
 
 function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbConfig);
+		var conn = new sql.ConnectionPool(dbTCPConfig);
 	  const transaction = new sql.Transaction(conn);
 		conn.connect((error) => {
       if(error) {
@@ -105,7 +114,7 @@ function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 
 function getCurrentCount(diff, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbConfig);
+		var conn = new sql.ConnectionPool(dbTCPConfig);
 	  var dbRequest = new sql.Request(conn);
 
 	  dbRequest.input('date', sql.VarChar, currentDateTime);
@@ -114,7 +123,7 @@ function getCurrentCount(diff, deck, floor, type, currentDateTime) {
 	  dbRequest.input('deck', sql.VarChar, deck);
 	  var sqlQuery = "SELECT * FROM parking_deck WHERE dt = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;";
 
-	  conn.connect((error) => {
+	  conn.connect(function(error) {
       if(error) {
         console.log(error);
         reject(error);
