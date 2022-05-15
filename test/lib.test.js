@@ -22,7 +22,7 @@ var dateAndTime = require('date-and-time');
 describe('Testing... LIB - SQL Connection Read', () => {
   it('should return 1 row with value of 0', async () => {
 		var result;
-    await lib.getCurrentCount('300','0','standard','0000-00-00').then(response => {
+    await lib.getCurrentCount('0','300','0','standard','0000-00-00').then(response => {
 			result = response;
 		});
 		assert(result==0);

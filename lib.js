@@ -23,6 +23,48 @@ var dbConfig = {
   encrypt: false
 }
 
+var maxAvailability = 100;
+
+function addNewRow(diff, deck, floor, type, currentDateTime) {
+	return new Promise(function(resolve, reject) {
+		var conn = new sql.ConnectionPool(dbConfig);
+	  const transaction = new sql.Transaction(conn);
+		conn.connect((error) => {
+      if(error) {
+        console.log(error);
+        reject(error);
+      }
+			transaction.begin(error => {
+				if(error) {
+					conn.close();
+					reject(error);
+				}
+		    const request = new sql.Request(transaction);
+
+				var tmpAvail = parseInt(maxAvailability) + parseInt(diff);
+		    request.input('count', sql.VarChar, tmpAvail.toString());
+		    request.input('date', sql.VarChar, currentDateTime);
+		    request.input('type', sql.VarChar, type);
+		    request.input('floor', sql.VarChar, floor.toString());
+		    request.input('deck', sql.VarChar, deck);
+				var sqlInsert = 'INSERT INTO parking_deck VALUES (@deck,@type,@date,@floor,@count);';
+
+		    request.query(sqlInsert, (err, result) => {
+		    	transaction.commit(error => {
+						if(error) {
+							conn.close();
+							reject(error);
+						} else {
+							conn.close();
+							resolve(result);
+						}
+		      });
+		    });
+		  });
+		});
+	});
+}
+
 function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
 		var conn = new sql.ConnectionPool(dbConfig);
@@ -62,7 +104,7 @@ function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 	});
 }
 
-function getCurrentCount(deck, floor, type, currentDateTime) {
+function getCurrentCount(diff, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
 		var conn = new sql.ConnectionPool(dbConfig);
 	  var dbRequest = new sql.Request(conn);
@@ -90,9 +132,11 @@ function getCurrentCount(deck, floor, type, currentDateTime) {
 						conn.close();
             resolve(body.parking_deck_count);
           } else {
-            console.log('need to create new row for new day');
-						conn.close();
-						resolve('{}');
+            addNewRow(diff, deck, floor, type, currentDateTime).then(response => {
+							conn.close();
+							var tmpAvail = parseInt(maxAvailability) + parseInt(diff);
+							resolve(tmpAvail);
+						});
           }
         }
       });
