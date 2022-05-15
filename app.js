@@ -12,7 +12,7 @@
 
 'use strict';
 
-const lib = require('./lib.js');
+const lib = require('./lib-gcp-sql.js');
 
 const express = require('express');
 const path = require('path');
@@ -20,6 +20,8 @@ const app = express();
 
 var bodyParser = require('body-parser');
 var dateAndTime = require('date-and-time');
+
+app.enable('trust proxy');
 
 app.use(bodyParser.urlencoded({
     extended: true

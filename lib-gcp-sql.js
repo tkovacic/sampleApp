@@ -11,37 +11,38 @@
 // limitations under the License.
 
 'use strict';
+
 const fs = require('fs');
 const sql = require("mssql");
-var dbTCPConfig = {
-  server: "34.148.177.123",
-  database: "sandbox",
-  user: "sqlserver",
-  password: "#CQ]y>GM5Qf<RYdh",
-  port: 1433,
-  encrypt: false
-}
-var dbSSLConfig = {
-  server: "34.148.177.123",
-  database: "sandbox",
-  user: "sqlserver",
-  password: "#CQ]y>GM5Qf<RYdh",
-  port: 3306,
-  encrypt: true,
-	ssl: {ca: fs.readFileSync(__dirname + '/web/cert/server-ca.pem')}
-}
 
 var maxAvailability = 100;
 
+function createPoolAndConnect() {
+	// [START cloud_sql_sqlserver_mssql_create]
+	return new Promise(function(resolve, reject) {
+	  const config = {user: '', password: '', database: '', server: '', port: 1433, encrypt: true, ssl: {}, connectionTimeout: 0, pool: {}, options: {}};
+	  config.user = "sqlserver";
+	  config.password = "#CQ]y>GM5Qf<RYdh";
+	  config.database = "sandbox";
+	  config.server = "34.148.177.123";
+	  config.port = 1433;
+		config.encrypt = true;
+		config.ssl = {ca: fs.readFileSync(__dirname + '/web/cert/server-ca.pem')};
+	  config.connectionTimeout = 30000;
+	  config.pool.acquireTimeoutMillis = 30000;
+	  (config.pool.idleTimeoutMillis = 600000),
+	  	(config.pool.max = 5);
+	  config.pool.min = 1;
+	  config.pool.createRetryIntervalMillis = 200;
+	  config.options.trustServerCertificate = true;
+	  resolve(sql.connect(config));
+	});
+}
+
 function addNewRow(diff, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbTCPConfig);
-	  const transaction = new sql.Transaction(conn);
-		conn.connect((error) => {
-      if(error) {
-        console.log(error);
-        reject(error);
-      }
+		createPoolAndConnect().then(function(conn) {
+			const transaction = new sql.Transaction(conn);
 			transaction.begin(error => {
 				if(error) {
 					conn.close();
@@ -75,13 +76,8 @@ function addNewRow(diff, deck, floor, type, currentDateTime) {
 
 function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbTCPConfig);
-	  const transaction = new sql.Transaction(conn);
-		conn.connect((error) => {
-      if(error) {
-        console.log(error);
-        reject(error);
-      }
+		createPoolAndConnect().then(function(conn) {
+	  	const transaction = new sql.Transaction(conn);
 			transaction.begin(error => {
 				if(error) {
 					conn.close();
@@ -114,20 +110,15 @@ function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 
 function getCurrentCount(diff, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbTCPConfig);
-	  var dbRequest = new sql.Request(conn);
+		createPoolAndConnect().then(function(conn) {
+		  var dbRequest = new sql.Request(conn);
 
-	  dbRequest.input('date', sql.VarChar, currentDateTime);
-	  dbRequest.input('type', sql.VarChar, type);
-	  dbRequest.input('floor', sql.VarChar, floor.toString());
-	  dbRequest.input('deck', sql.VarChar, deck);
-	  var sqlQuery = "SELECT * FROM parking_deck WHERE dt = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;";
+		  dbRequest.input('date', sql.VarChar, currentDateTime);
+		  dbRequest.input('type', sql.VarChar, type);
+		  dbRequest.input('floor', sql.VarChar, floor.toString());
+		  dbRequest.input('deck', sql.VarChar, deck);
+		  var sqlQuery = "SELECT * FROM parking_deck WHERE dt = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;";
 
-	  conn.connect(function(error) {
-      if(error) {
-        console.log(error);
-        reject(error);
-      }
       dbRequest.query(sqlQuery, (error, recordSet) => {
         if(error) {
           console.log(error);
