@@ -18,7 +18,6 @@ const sql = require("mssql");
 var maxAvailability = 100;
 
 function createPoolAndConnect() {
-	// [START cloud_sql_sqlserver_mssql_create]
 	return new Promise(function(resolve, reject) {
 	  const config = {user: '', password: '', database: '', server: '', port: 1433, encrypt: true, ssl: {}, connectionTimeout: 0, pool: {}, options: {}};
 	  config.user = "sqlserver";
@@ -27,7 +26,7 @@ function createPoolAndConnect() {
 	  config.server = "34.148.177.123";
 	  config.port = 1433;
 		config.encrypt = true;
-		config.ssl = {ca: fs.readFileSync(__dirname + '/web/cert/server-ca.pem')};
+		//config.ssl = {ca: fs.readFileSync(__dirname + '/web/cert/server-ca.pem')}
 	  config.connectionTimeout = 30000;
 	  config.pool.acquireTimeoutMillis = 30000;
 	  (config.pool.idleTimeoutMillis = 600000),

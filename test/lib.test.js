@@ -10,10 +10,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const lib = require('../lib-gcp-sql.js');
+const lib = require('../lib-sql.js');
 const assert = require('assert');
-const axios = require('axios');
-const baseUrl = "http://localhost:8080";
 
 var sql = require("mssql");
 var bodyParser = require('body-parser');

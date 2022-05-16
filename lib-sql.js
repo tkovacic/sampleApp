@@ -15,23 +15,25 @@
 const fs = require('fs');
 const sql = require("mssql");
 
+var config = require('./config');
+
 var dbTCPConfig = {
-  server: "34.148.177.123",
-  database: "sandbox",
-  user: "sqlserver",
-  password: "#CQ]y>GM5Qf<RYdh",
-  port: 1433,
-  encrypt: false
+  server: config.server,
+  database: config.database,
+  user: config.user,
+  password: config.password,
+  port: config.port,
+  encrypt: config.encrypt,
 }
-var dbSSLConfig = {
-  server: "34.148.177.123",
-  database: "sandbox",
+/*var dbSSLConfig = {
+  server: "sandbox-sqldb-server.database.windows.net",
+  database: "sandbox-db",
   user: "sqlserver",
-  password: "#CQ]y>GM5Qf<RYdh",
+  password: "GCQ]y>GM5Qf<RYdh",
   port: 3306,
-  encrypt: true,
+  encrypt: true
 	ssl: {ca: fs.readFileSync(__dirname + '/web/cert/server-ca.pem')}
-}
+}*/
 
 var maxAvailability = 100;
 
@@ -57,7 +59,7 @@ function addNewRow(diff, deck, floor, type, currentDateTime) {
 		    request.input('type', sql.VarChar, type);
 		    request.input('floor', sql.VarChar, floor.toString());
 		    request.input('deck', sql.VarChar, deck);
-				var sqlInsert = 'INSERT INTO parking_deck VALUES (@deck,@type,@date,@floor,@count);';
+				var sqlInsert = 'INSERT INTO parking_signage VALUES (@deck,@floor,@type,@count,@date);';
 
 		    request.query(sqlInsert, (err, result) => {
 		    	transaction.commit(error => {
@@ -96,7 +98,7 @@ function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 		    request.input('type', sql.VarChar, type);
 		    request.input('floor', sql.VarChar, floor.toString());
 		    request.input('deck', sql.VarChar, deck);
-				var sqlUpdate = 'UPDATE parking_deck SET parking_deck_count = @count WHERE dt = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;';
+				var sqlUpdate = 'UPDATE parking_signage SET parking_deck_count = @count WHERE parking_day = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;';
 
 		    request.query(sqlUpdate, (err, result) => {
 		    	transaction.commit(error => {
@@ -123,7 +125,7 @@ function getCurrentCount(diff, deck, floor, type, currentDateTime) {
 	  dbRequest.input('type', sql.VarChar, type);
 	  dbRequest.input('floor', sql.VarChar, floor.toString());
 	  dbRequest.input('deck', sql.VarChar, deck);
-	  var sqlQuery = "SELECT * FROM parking_deck WHERE dt = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;";
+	  var sqlQuery = "SELECT * FROM parking_signage WHERE parking_day = @date AND parking_deck_count_type = @type AND parking_deck_floor = @floor AND parking_deck = @deck;";
 
 	  conn.connect(function(error) {
       if(error) {

@@ -12,7 +12,7 @@
 
 'use strict';
 
-const lib = require('./lib-gcp-sql.js');
+const lib = require('./lib-sql.js');
 
 const express = require('express');
 const path = require('path');
