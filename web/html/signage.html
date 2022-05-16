@@ -53,44 +53,62 @@
     </div>
     <script>
     window.onload = function() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      let mm = today.getMonth() + 1; // Months start at 0!
+      let dd = today.getDate();
+
+      if (dd < 10) dd = '0' + dd;
+      if (mm < 10) mm = '0' + mm;
+
+      var formattedDate = yyyy + '-' + mm + '-' + dd;
       var req = new XMLHttpRequest();
-      req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-16');
+      req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=' + formattedDate);
       req.send();
       req.onload = (response) => {
         console.log(response);
         document.getElementById('stdTarget').innerHTML = response.srcElement.response;
       }
       req = new XMLHttpRequest();
-      req.open('GET','/currentCount?deck=300&floor=1&type=ada&date=2022-05-16');
+      req.open('GET','/currentCount?deck=300&floor=1&type=ada&date=' + formattedDate);
       req.send();
       req.onload = (response) => {
         console.log(response);
         document.getElementById('adaTarget').innerHTML = response.srcElement.response;
       }
       req = new XMLHttpRequest();
-      req.open('GET','/currentCount?deck=300&floor=1&type=ev&date=2022-05-16');
+      req.open('GET','/currentCount?deck=300&floor=1&type=ev&date=' + formattedDate);
       req.send();
       req.onload = (response) => {
         console.log(response);
         document.getElementById('evTarget').innerHTML = response.srcElement.response;
       }
       setInterval(function() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        let mm = today.getMonth() + 1; // Months start at 0!
+        let dd = today.getDate();
+
+        if (dd < 10) dd = '0' + dd;
+        if (mm < 10) mm = '0' + mm;
+
+        var formattedDate = yyyy + '-' + mm + '-' + dd;
         var req = new XMLHttpRequest();
-        req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-16');
+        req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=' + formattedDate);
         req.send();
         req.onload = (response) => {
           console.log(response);
           document.getElementById('stdTarget').innerHTML = response.srcElement.response;
         }
         req = new XMLHttpRequest();
-        req.open('GET','/currentCount?deck=300&floor=1&type=ada&date=2022-05-16');
+        req.open('GET','/currentCount?deck=300&floor=1&type=ada&date=' + formattedDate);
         req.send();
         req.onload = (response) => {
           console.log(response);
           document.getElementById('adaTarget').innerHTML = response.srcElement.response;
         }
         req = new XMLHttpRequest();
-        req.open('GET','/currentCount?deck=300&floor=1&type=ev&date=2022-05-16');
+        req.open('GET','/currentCount?deck=300&floor=1&type=ev&date=' + formattedDate);
         req.send();
         req.onload = (response) => {
           console.log(response);
