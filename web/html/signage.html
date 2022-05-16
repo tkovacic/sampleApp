@@ -1,15 +1,15 @@
 
 <!DOCTYPE html>
-<html lang="en" style="height: 100%;width: 100%;">
+<html lang="en" style="height: 100%;">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="height=device-height, initial-scale=1">
-    <title>Smart Parking Sample Signage</title>
+    <title>Smart Building Team</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
       .animate__animated.animate__fadeIn {
-    	   --animate-duration: 3s;
+  	     --animate-duration: 3s;
     	}
       body {
     		background: linear-gradient(-45deg, #c90076, #8e7cc3, #23a6d5, #23d5ab);
@@ -18,21 +18,20 @@
     		height: auto;
     	}
     	@keyframes gradient {
-    		0% {
-    			background-position: 0% 50%;
-    		}
-    		50% {
-    			background-position: 100% 50%;
-    		}
-    		100% {
-    			background-position: 0% 50%;
-    		}
+    		0% { background-position: 0% 50%; }
+    		50% { background-position: 100% 50%; }
+    		100% { background-position: 0% 50%; }
     	}
     </style>
   </head>
-  <body>
-    <div style="display: flex;align-items: center;justify-content: center;">
-      <h1 style='font-size: 100px;position: absolute;top: 50%;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="target">0</h1>
+  <body style="margin-top: 100px;">
+    <div class="d-flex flex-column justify-content-center">
+    	<div class="d-flex flex-column justify-content-center align-items-center" style="display: flex;flex-direction: column;justify-content: center;text-align: center;">
+        <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">Parking Deck 300</h1>
+        <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">Level 1 Availability</h1>
+        <br><br>
+        <h1 style='font-size:100px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="target">0</h1>
+    	</div>
     </div>
     <script>
     window.onload = function() {
