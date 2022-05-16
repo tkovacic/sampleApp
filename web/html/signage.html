@@ -27,10 +27,28 @@
   <body style="margin-top: 100px;">
     <div class="d-flex flex-column justify-content-center">
     	<div class="d-flex flex-column justify-content-center align-items-center" style="display: flex;flex-direction: column;justify-content: center;text-align: center;">
-        <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">Parking Deck 300</h1>
-        <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">Level 1 STD Spots</h1>
+        <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn">Deck 300 Level 1 Availability</h1>
         <br><br>
-        <h1 style='font-size:100px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="target">0</h1>
+        <div class="container-fluid">
+    		  <div class="row">
+            <div class="col">
+            </div>
+    		    <div class="col" style="text-align: center;">
+              <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">STD</h1>
+              <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="stdTarget">0</h1>
+            </div>
+            <div class="col" style="text-align: center;">
+              <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">ADA</h1>
+              <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="adaTarget">0</h1>
+            </div>
+            <div class="col" style="text-align: center;">
+              <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">EV</h1>
+              <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="evTarget">0</h1>
+            </div>
+            <div class="col">
+            </div>
+          </div>
+        </div>
     	</div>
     </div>
     <script>
@@ -41,7 +59,21 @@
         req.send();
         req.onload = (response) => {
           console.log(response);
-          document.getElementById('target').innerHTML = response.srcElement.response;
+          document.getElementById('stdTarget').innerHTML = response.srcElement.response;
+        }
+        req = new XMLHttpRequest();
+        req.open('GET','/currentCount?deck=300&floor=1&type=ada&date=2022-05-16');
+        req.send();
+        req.onload = (response) => {
+          console.log(response);
+          document.getElementById('adaTarget').innerHTML = response.srcElement.response;
+        }
+        req = new XMLHttpRequest();
+        req.open('GET','/currentCount?deck=300&floor=1&type=ev&date=2022-05-16');
+        req.send();
+        req.onload = (response) => {
+          console.log(response);
+          document.getElementById('evTarget').innerHTML = response.srcElement.response;
         }
       }, 60000);
     }
