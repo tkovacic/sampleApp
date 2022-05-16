@@ -22,7 +22,7 @@ var dbTCPConfig = {
   database: config.database,
   user: config.user,
   password: config.password,
-  port: config.port,
+  port: parseInt(config.port),
   encrypt: config.encrypt,
 }
 /*var dbSSLConfig = {
