@@ -23,9 +23,9 @@ async function getIndex() {
 async function postIndex() {
   var response = axios.post(baseUrl, {
     "parkingStructure" : "300",
-    "floor" : "0",
+    "floor" : "1",
     "type" : "standard",
-    "diff" : "0"
+    "diff" : "-1"
   });
   return response;
 };

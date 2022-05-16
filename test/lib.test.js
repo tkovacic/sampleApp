@@ -20,7 +20,7 @@ var dateAndTime = require('date-and-time');
 describe('Testing... LIB - SQL Connection Read', () => {
   it('should return 1 dummy row with current count of 0', async () => {
 		var result;
-    await lib.getCurrentCount('0','300','0','standard','0000-00-00').then(response => {
+    await lib.getCurrentCount('0','300','1','standard','0000-00-00').then(response => {
 			result = response;
 		});
 		assert(result==0);
@@ -30,7 +30,7 @@ describe('Testing... LIB - SQL Connection Read', () => {
 describe('Testing... LIB - SQL Connection Write', () => {
   it('should return 1 dummy row affected', async () => {
 		var result;
-    await lib.updateCurrentCount('0','300','0','standard','0000-00-00').then(response => {
+    await lib.updateCurrentCount('0','300','1','standard','0000-00-00').then(response => {
 			result = response.rowsAffected;
 		});
 		assert(result==1);

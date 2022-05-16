@@ -10,7 +10,7 @@ CREATE TABLE parking_signage (
 	parking_day VARCHAR(50)
 );
 
-INSERT INTO parking_signage VALUES ('300','0','standard','0','0000-00-00');
+INSERT INTO parking_signage VALUES ('300','1','standard','0','0000-00-00');
 INSERT INTO parking_signage VALUES ('300','1','standard','0','2022-05-16');
 INSERT INTO parking_signage VALUES ('300','1','ada','0','2022-05-16');
 INSERT INTO parking_signage VALUES ('300','1','ev','0','2022-05-16');
