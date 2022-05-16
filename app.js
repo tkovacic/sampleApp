@@ -32,8 +32,8 @@ app.get('/', (request, response) => {
   response.status(200).sendFile(path.join(__dirname, '/web/html/index.html'));
 });
 
-app.get('/signage', (request, response) => {
-  response.status(200).sendFile(path.join(__dirname, '/web/html/signage.html'));
+app.get('/parking', (request, response) => {
+  response.status(200).sendFile(path.join(__dirname, '/web/html/parking.html'));
 });
 
 app.post('/', (request, response) => {
