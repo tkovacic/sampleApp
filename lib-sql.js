@@ -15,7 +15,7 @@
 const fs = require('fs');
 const sql = require("mssql");
 
-var config = require('./config');
+var config = require('./config/config');
 
 var dbTCPConfig = {
   server: config.server,
