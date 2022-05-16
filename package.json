@@ -1,6 +1,6 @@
 {
   "name": "appengine-sample",
-  "description": "Simple Hello World Node.js sample for Google App Engine Standard Environment.",
+  "description": "Smart Parking Node.js Sample App",
   "version": "0.0.2",
   "private": true,
   "license": "Apache-2.0",

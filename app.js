@@ -12,7 +12,7 @@
 
 'use strict';
 
-const lib = require('./lib-sql.js');
+const mssqlLib = require('./lib/mssql.js');
 
 const express = require('express');
 const path = require('path');
@@ -29,11 +29,11 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/', (request, response) => {
-  response.status(200).sendFile(path.join(__dirname, '/web/index.html'));
+  response.status(200).sendFile(path.join(__dirname, '/web/html/index.html'));
 });
 
 app.get('/signage', (request, response) => {
-  response.status(200).sendFile(path.join(__dirname, '/web/signage.html'));
+  response.status(200).sendFile(path.join(__dirname, '/web/html/signage.html'));
 });
 
 app.post('/', (request, response) => {
@@ -49,9 +49,9 @@ app.post('/', (request, response) => {
   var now = new Date();
   var currentDateTime = dateAndTime.format(now,'YYYY-MM-DD Z').substring(0,10);
 
-  lib.getCurrentCount(parkingDiff, parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {
+  mssqlLib.getCurrentCount(parkingDiff, parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {
     var updatedCount = parseInt(parkingDiff) + parseInt(response);
-    lib.updateCurrentCount(updatedCount.toString(), parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {});
+    mssqlLib.updateCurrentCount(updatedCount.toString(), parkingDeck, parkingFloor, parkingType, currentDateTime).then(response => {});
   });
 
   response.status(200).send('Recieved data from deck ' + parkingDeck + ' on floor ' + parkingFloor + ' for ' + parkingType + ' spot with delta of ' + parkingDiff).end();
@@ -64,7 +64,7 @@ app.get('/currentCount', (request, response) => {
   const parkingType = request.query.type;
   const parkingDate = request.query.date;
 
-  lib.getCurrentCount(parkingDiff, parkingDeck, parkingFloor, parkingType, parkingDate).then(counts => {
+  mssqlLib.getCurrentCount(parkingDiff, parkingDeck, parkingFloor, parkingType, parkingDate).then(counts => {
     response.status(200).send(counts).end();
   });
 });
