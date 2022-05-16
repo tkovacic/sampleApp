@@ -1,60 +1,53 @@
 
 <!DOCTYPE html>
-<html lang="en" style="height: 100%;">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="height=device-height, initial-scale=1">
-  <title>Smart Building Team</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <style>
-    .animate__animated.animate__fadeIn {
-	  --animate-duration: 3s;
-	}
-    body {
-		background: linear-gradient(-45deg, #c90076, #8e7cc3, #23a6d5, #23d5ab);
-		background-size: 700% 700%;
-		animation: gradient 60s ease infinite;
-		height: auto;
-	}
-
-	@keyframes gradient {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
-	}
-  </style>
-</head>
-<body style="margin-top: 100px;">
-<div class="d-flex flex-column justify-content-center">
-	<div class="d-flex flex-column justify-content-center align-items-center">
-		<div class="container-fluid">
-		  <div class="row">
-		    <div class="col" style="text-align: center;">
-		      <h1 style='font-size:100px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="target">0</h1>
-		    </div>
-		  </div>
-		</div>
-	</div>
-</div>
-<script>
-window.onload = function() {
-  setInterval(function() {
-    var req = new XMLHttpRequest();
-    req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-16');
-    req.send();
-    req.onload = (response) => {
-      console.log(response);
-      document.getElementById('target').innerHTML = response.srcElement.response;
+<html lang="en" style="height: 100%;width: 100%;">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="height=device-height, initial-scale=1">
+    <title>Smart Parking Sample Signage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+      .animate__animated.animate__fadeIn {
+    	   --animate-duration: 3s;
+    	}
+      body {
+    		background: linear-gradient(-45deg, #c90076, #8e7cc3, #23a6d5, #23d5ab);
+    		background-size: 700% 700%;
+    		animation: gradient 60s ease infinite;
+    		height: auto;
+    	}
+    	@keyframes gradient {
+    		0% {
+    			background-position: 0% 50%;
+    		}
+    		50% {
+    			background-position: 100% 50%;
+    		}
+    		100% {
+    			background-position: 0% 50%;
+    		}
+    	}
+    </style>
+  </head>
+  <body>
+    <div style="display: flex;align-items: center;justify-content: center;">
+      <h1 style='font-size: 80px;position: absolute;top: 30%;' class="fw-light text-white m-0 animate__animated animate__fadeIn">Parking Deck 300</h1>
+      <h1 style='font-size: 80px;position: absolute;top: 40%;' class="fw-light text-white m-0 animate__animated animate__fadeIn">Level 1 Availability</h1>
+      <h1 style='font-size: 100px;position: absolute;top: 50%;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="target">0</h1>
+    </div>
+    <script>
+    window.onload = function() {
+      setInterval(function() {
+        var req = new XMLHttpRequest();
+        req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-16');
+        req.send();
+        req.onload = (response) => {
+          console.log(response);
+          document.getElementById('target').innerHTML = response.srcElement.response;
+        }
+      }, 60000);
     }
-  }, 10000);
-}
-</script>
-</body>
+    </script>
+  </body>
 </html>
