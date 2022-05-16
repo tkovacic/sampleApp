@@ -11,9 +11,12 @@ CREATE TABLE parking_signage (
 );
 
 INSERT INTO parking_signage VALUES ('300','0','standard','0','0000-00-00');
-INSERT INTO parking_signage VALUES ('300','1','standard','0','2022-05-15');
-INSERT INTO parking_signage VALUES ('300','1','ada','0','2022-05-15');
-INSERT INTO parking_signage VALUES ('300','1','ev','0','2022-05-15');
+INSERT INTO parking_signage VALUES ('300','1','standard','0','2022-05-16');
+INSERT INTO parking_signage VALUES ('300','1','ada','0','2022-05-16');
+INSERT INTO parking_signage VALUES ('300','1','ev','0','2022-05-16');
+INSERT INTO parking_signage VALUES ('300','2','standard','0','2022-05-16');
+INSERT INTO parking_signage VALUES ('300','2','ada','0','2022-05-16');
+INSERT INTO parking_signage VALUES ('300','2','ev','0','2022-05-16');
 
 CREATE TABLE parking_data (
     id int IDENTITY(1,1) PRIMARY KEY,

@@ -48,7 +48,7 @@ app.post('/', (request, response) => {
 
   if(parkingDeck=="300") {} else {response.status(400).send('Rejected parking deck: ' + parkingDeck + '...only 300').end(); return;};
   if(parkingType=="standard" || parkingType=="ada" || parkingType=="ev") {} else {response.status(400).send('Rejected parking type: ' + parkingType + '...only standard, ada, ev').end(); return;};
-  if(parseInt(parkingFloor) < 0 || parseInt(parkingFloor) > 1) {response.status(400).send('Rejected parking floor: ' + parkingFloor + '...only floor 1').end(); return;};
+  if(parseInt(parkingFloor) < 1 || parseInt(parkingFloor) > 2) {response.status(400).send('Rejected parking floor: ' + parkingFloor + '...only floor 1, 2').end(); return;};
   if(parseInt(parkingDiff) < -1 || parseInt(parkingDiff) > 1 || parseInt(parkingDiff) == 0) {response.status(400).send('Rejected parking diff: ' + parkingDiff + '...only 1, -1').end(); return;};
 
   var now = new Date();

@@ -27,25 +27,38 @@
   <body style="margin-top: 100px;">
     <div class="d-flex flex-column justify-content-center">
     	<div class="d-flex flex-column justify-content-center align-items-center" style="display: flex;flex-direction: column;justify-content: center;text-align: center;">
-        <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn">Deck 300 Level 1 Availability</h1>
+        <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn">Deck 300</h1>
         <br><br>
         <div class="container-fluid">
+          <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn">Level 1 Availability</h1>
     		  <div class="row">
-            <div class="col">
+    		    <div class="col" style="text-align: center; display: inline;">
+              <div style="display: inline;">
+                <h1 style="display: inline;" class="fw-light text-white m-0 animate__animated animate__fadeIn">STD: </h1>
+                <h1 style='font-size:40px;display: inline;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="stdTarget">0</h1>
+                <br>
+                <h1 style="display: inline;" class="fw-light text-white m-0 animate__animated animate__fadeIn">ADA: </h1>
+                <h1 style='font-size:40px;display: inline;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="adaTarget">0</h1>
+                <br>
+                <h1 style="display: inline;" class="fw-light text-white m-0 animate__animated animate__fadeIn">EV: </h1>
+                <h1 style='font-size:40px;display: inline;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="evTarget">0</h1>
+              </div>
             </div>
-    		    <div class="col" style="text-align: center;">
-              <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">STD</h1>
-              <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="stdTarget">0</h1>
-            </div>
-            <div class="col" style="text-align: center;">
-              <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">ADA</h1>
-              <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="adaTarget">0</h1>
-            </div>
-            <div class="col" style="text-align: center;">
-              <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">EV</h1>
-              <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="evTarget">0</h1>
-            </div>
-            <div class="col">
+          </div>
+          <br><br>
+          <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn">Level 2 Availability</h1>
+    		  <div class="row">
+    		    <div class="col" style="text-align: center; display: inline;">
+              <div style="display: inline;">
+                <h1 style="display: inline;" class="fw-light text-white m-0 animate__animated animate__fadeIn">STD: </h1>
+                <h1 style='font-size:40px;display: inline;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="stdTarget2">0</h1>
+                <br>
+                <h1 style="display: inline;" class="fw-light text-white m-0 animate__animated animate__fadeIn">ADA: </h1>
+                <h1 style='font-size:40px;display: inline;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="adaTarget2">0</h1>
+                <br>
+                <h1 style="display: inline;" class="fw-light text-white m-0 animate__animated animate__fadeIn">EV: </h1>
+                <h1 style='font-size:40px;display: inline;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="evTarget2">0</h1>
+              </div>
             </div>
           </div>
         </div>
@@ -62,6 +75,8 @@
       if (mm < 10) mm = '0' + mm;
 
       var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+      //floor 1
       var req = new XMLHttpRequest();
       req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=' + formattedDate);
       req.send();
@@ -83,6 +98,28 @@
         console.log(response);
         document.getElementById('evTarget').innerHTML = response.srcElement.response;
       }
+      //floor 2
+      var req = new XMLHttpRequest();
+      req.open('GET','/currentCount?deck=300&floor=2&type=standard&date=' + formattedDate);
+      req.send();
+      req.onload = (response) => {
+        console.log(response);
+        document.getElementById('stdTarget2').innerHTML = response.srcElement.response;
+      }
+      req = new XMLHttpRequest();
+      req.open('GET','/currentCount?deck=300&floor=2&type=ada&date=' + formattedDate);
+      req.send();
+      req.onload = (response) => {
+        console.log(response);
+        document.getElementById('adaTarget2').innerHTML = response.srcElement.response;
+      }
+      req = new XMLHttpRequest();
+      req.open('GET','/currentCount?deck=300&floor=2&type=ev&date=' + formattedDate);
+      req.send();
+      req.onload = (response) => {
+        console.log(response);
+        document.getElementById('evTarget2').innerHTML = response.srcElement.response;
+      }
       setInterval(function() {
         const today = new Date();
         const yyyy = today.getFullYear();
@@ -92,6 +129,7 @@
         if (dd < 10) dd = '0' + dd;
         if (mm < 10) mm = '0' + mm;
 
+        //floor 1
         var formattedDate = yyyy + '-' + mm + '-' + dd;
         var req = new XMLHttpRequest();
         req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=' + formattedDate);
@@ -114,7 +152,29 @@
           console.log(response);
           document.getElementById('evTarget').innerHTML = response.srcElement.response;
         }
-      }, 60000);
+        //floor 2
+        var req = new XMLHttpRequest();
+        req.open('GET','/currentCount?deck=300&floor=2&type=standard&date=' + formattedDate);
+        req.send();
+        req.onload = (response) => {
+          console.log(response);
+          document.getElementById('stdTarget2').innerHTML = response.srcElement.response;
+        }
+        req = new XMLHttpRequest();
+        req.open('GET','/currentCount?deck=300&floor=2&type=ada&date=' + formattedDate);
+        req.send();
+        req.onload = (response) => {
+          console.log(response);
+          document.getElementById('adaTarget2').innerHTML = response.srcElement.response;
+        }
+        req = new XMLHttpRequest();
+        req.open('GET','/currentCount?deck=300&floor=2&type=ev&date=' + formattedDate);
+        req.send();
+        req.onload = (response) => {
+          console.log(response);
+          document.getElementById('evTarget2').innerHTML = response.srcElement.response;
+        }
+      }, 30000);
     }
     </script>
   </body>
