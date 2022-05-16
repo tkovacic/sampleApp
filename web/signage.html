@@ -47,7 +47,7 @@
 window.onload = function() {
   setInterval(function() {
     var req = new XMLHttpRequest();
-    req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-15');
+    req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-16');
     req.send();
     req.onload = (response) => {
       console.log(response);

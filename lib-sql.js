@@ -22,8 +22,9 @@ var dbTCPConfig = {
   database: config.database,
   user: config.user,
   password: config.password,
-  port: parseInt(config.port),
-  encrypt: config.encrypt,
+  port: 1433,
+  encrypt: true,
+  ssl: {ca: fs.readFileSync(__dirname + '/web/cert/BaltimoreCyberTrustRoot.crt.pem')}
 }
 /*var dbSSLConfig = {
   server: "sandbox-sqldb-server.database.windows.net",
