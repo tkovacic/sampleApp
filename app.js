@@ -24,7 +24,7 @@ var dateAndTime = require('date-and-time');
 app.enable('trust proxy');
 
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }));
 app.use(bodyParser.json());
 
