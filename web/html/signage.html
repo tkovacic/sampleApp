@@ -35,15 +35,15 @@
             </div>
     		    <div class="col" style="text-align: center;">
               <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">STD</h1>
-              <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="stdTarget">0</h1>
+              <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="stdTarget">0</h1>
             </div>
             <div class="col" style="text-align: center;">
               <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">ADA</h1>
-              <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="adaTarget">0</h1>
+              <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="adaTarget">0</h1>
             </div>
             <div class="col" style="text-align: center;">
               <h1 class="fw-light text-white m-0 animate__animated animate__fadeIn">EV</h1>
-              <h1 style='font-size:60px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="evTarget">0</h1>
+              <h1 style='font-size:40px;' class="fw-light text-white m-0 animate__animated animate__fadeIn" id="evTarget">0</h1>
             </div>
             <div class="col">
             </div>
@@ -53,6 +53,27 @@
     </div>
     <script>
     window.onload = function() {
+      var req = new XMLHttpRequest();
+      req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-16');
+      req.send();
+      req.onload = (response) => {
+        console.log(response);
+        document.getElementById('stdTarget').innerHTML = response.srcElement.response;
+      }
+      req = new XMLHttpRequest();
+      req.open('GET','/currentCount?deck=300&floor=1&type=ada&date=2022-05-16');
+      req.send();
+      req.onload = (response) => {
+        console.log(response);
+        document.getElementById('adaTarget').innerHTML = response.srcElement.response;
+      }
+      req = new XMLHttpRequest();
+      req.open('GET','/currentCount?deck=300&floor=1&type=ev&date=2022-05-16');
+      req.send();
+      req.onload = (response) => {
+        console.log(response);
+        document.getElementById('evTarget').innerHTML = response.srcElement.response;
+      }
       setInterval(function() {
         var req = new XMLHttpRequest();
         req.open('GET','/currentCount?deck=300&floor=1&type=standard&date=2022-05-16');
