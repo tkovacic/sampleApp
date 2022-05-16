@@ -17,7 +17,7 @@ const sql = require("mssql");
 
 var config = require('./config/config');
 
-var dbTCPConfig = {
+var dbConfig = {
   server: config.server,
   database: config.database,
   user: config.user,
@@ -26,21 +26,12 @@ var dbTCPConfig = {
   encrypt: true,
   ssl: {ca: fs.readFileSync(__dirname + '/web/cert/BaltimoreCyberTrustRoot.crt.pem')}
 }
-/*var dbSSLConfig = {
-  server: "sandbox-sqldb-server.database.windows.net",
-  database: "sandbox-db",
-  user: "sqlserver",
-  password: "GCQ]y>GM5Qf<RYdh",
-  port: 3306,
-  encrypt: true
-	ssl: {ca: fs.readFileSync(__dirname + '/web/cert/server-ca.pem')}
-}*/
 
 var maxAvailability = 100;
 
 function addNewRow(diff, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbTCPConfig);
+		var conn = new sql.ConnectionPool(dbConfig);
 	  const transaction = new sql.Transaction(conn);
 		conn.connect((error) => {
       if(error) {
@@ -80,7 +71,7 @@ function addNewRow(diff, deck, floor, type, currentDateTime) {
 
 function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbTCPConfig);
+		var conn = new sql.ConnectionPool(dbConfig);
 	  const transaction = new sql.Transaction(conn);
 		conn.connect((error) => {
       if(error) {
@@ -119,7 +110,7 @@ function updateCurrentCount(count, deck, floor, type, currentDateTime) {
 
 function getCurrentCount(diff, deck, floor, type, currentDateTime) {
 	return new Promise(function(resolve, reject) {
-		var conn = new sql.ConnectionPool(dbTCPConfig);
+		var conn = new sql.ConnectionPool(dbConfig);
 	  var dbRequest = new sql.Request(conn);
 
 	  dbRequest.input('date', sql.VarChar, currentDateTime);
